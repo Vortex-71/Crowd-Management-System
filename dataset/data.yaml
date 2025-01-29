@@ -1,0 +1,4 @@
+train: /content/Ultron_Hackathon/dataset/images/train
+val: /content/Ultron_Hackathon/dataset/images/val
+nc: 1
+names: ["person"]
