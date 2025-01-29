@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Preview</title>
+</head>
+<body>
+    <h1>Live Preview</h1>
+    <!-- This is the MJPEG stream; we just display it in an <img> -->
+    <img src="{{ url_for('video_feed') }}" style="max-width: 80%; height: auto;" />
+</body>
+</html>
