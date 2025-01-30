@@ -1,17 +1,167 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    background: url('/templates/crowd.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    margin: 0;
+    padding: 0;
 }
-h1 {
-    color: #333;
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Black transparent overlay */
+    z-index: -1; /* Ensure the overlay is behind the content */
 }
-button {
-    background-color: #4CAF50;
+
+/* Navbar styling */
+nav {
+    background-color: rgba(44, 62, 80, 0.8);
+    padding: 15px;
+}
+
+nav .navbar-brand {
+    display: flex;
+    align-items: center;
     color: white;
-    padding: 8px 16px;
-    border: none;
-    cursor: pointer;
+    font-size: 1.5rem;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
+
+nav .navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+nav .nav-link {
+    color: white;
+}
+
+nav .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-search {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-search input {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+
+.navbar-search button {
+    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+}
+
+.navbar-search button:hover {
+    background-color: #0056b3;
+}
+
+/* Centered Upload Section */
+#main-content {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.6); /* Reduced transparency */
+    border: none;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.card h1 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #ccc;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Upload Button Styling */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: transform 0.3s, background-color 0.3s;
+    font-size: 1rem;
+}
+
 button:hover {
-    background-color: #45a049;
+    background-color: #218838;
+    transform: scale(1.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    background-color: #1e7e34;
+    transform: scale(0.98);
+}
+
+/* Input styling */
+input[type="file"] {
+    display: inline-block; /* Make it visible */
+    color: white; /* Text color for visibility */
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+    border: 1px solid #ccc; /* Add a border for visibility */
+    border-radius: 5px; /* Rounded edges */
+    padding: 5px 10px; /* Add some padding */
+    width: auto; /* Fit the content */
+    margin-top: 10px; /* Add spacing from other elements */
+}
+
+/* Section styling */
+#about, #services, #contact {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin: 0;
+}
+
+.section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.section p {
+    font-size: 1rem;
+}
+
+.section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.section a:hover {
+    text-decoration: underline;
+}
+
+/* Ensure spacing between sections */
+.spacer {
+    height: 20px;
 }
