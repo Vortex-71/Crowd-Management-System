@@ -34,8 +34,10 @@
         <div class="card">
             <h1>Upload Video</h1>
             <p>Drag & Drop your video here or click to upload</p>
-            <input type="file" id="fileInput" accept="video/*">
-            <button type="button" id="uploadButton">Upload</button>
+            <form id="uploadForm" method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="video">
+                <button type="submit" id="uploadButton">Upload</button>
+            </form>            
         </div>
     </div>
 
@@ -56,8 +58,6 @@
 
     <script>
         const dropZone = document.querySelector('.card');
-        const fileInput = document.getElementById('fileInput');
-        const uploadButton = document.getElementById('uploadButton');
 
         dropZone.addEventListener('click', () => fileInput.click());
 
@@ -78,13 +78,18 @@
             alert('File selected: ' + files[0].name);
         });
 
-        uploadButton.addEventListener('click', () => {
-            if (fileInput.files.length > 0) {
-                alert('Uploading: ' + fileInput.files[0].name);
-            } else {
-                alert('Please select a file first.');
-            }
-        });
+        document.getElementById('uploadButton').addEventListener('click', function() {
+        const fileInput = document.getElementById('fileInput');
+        const uploadForm = document.getElementById('uploadForm');
+
+    if (fileInput.files.length > 0) {
+        alert('Uploading: ' + fileInput.files[0].name);
+        uploadForm.submit();
+    } else {
+        alert('Please select a file first.');
+    }
+});
+
     </script>
 </body>
 </html>
