@@ -3,93 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Video</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Crowd Management System</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #007BFF;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 20px;
+            background: url('https://source.unsplash.com/1600x900/?crowd,city') no-repeat center center/cover;
+            color: #cce6ff;
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            height: 30vh; /* Decreased height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto 20px auto; /* Removed extra gap */
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Cards Section */
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            width: 250px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 60px;
+            margin-bottom: 10px;
+        }
+
+        /* Sections (About & Contact) */
+        .info-section {
+            text-align: center;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        /* Icons */
+        .icon {
+            width: 25px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Footer */
+        .footer {
+            background: #007BFF;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="/templates/logo.jpg" alt="Logo"> Croud Management System
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
-                <form class="navbar-search">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <button type="submit" class="btn">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
 
-    <div id="main-content">
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">CMS</div>
+        <nav class="nav-links">
+            <a href="#upload">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a> <!-- Now fully visible -->
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>Efficient Crowd Management for Events & Public Spaces</div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="upload-section">
+        <h2>Upload Your Videos</h2>
+        <input type="file" class="file-input" accept="video/*">
+        <button class="upload-button" onclick="uploadFile()">Upload</button>
+        <p id="upload-status"></p>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="card-container">
         <div class="card">
-            <h1>Upload Video</h1>
-            <p>Drag & Drop your video here or click to upload</p>
-            <form id="uploadForm" method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
-                <input type="file" id="fileInput" name="video">
-                <button type="submit" id="uploadButton">Upload</button>
-            </form>            
+            <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="AI Icon">
+            <h3>AI Surveillance</h3>
+            <p>Real-time AI analysis to detect crowd congestion.</p>
         </div>
-    </div>
 
-    <div id="about" class="section">
-        <h2>About</h2>
-        <p>This is the Croud Management System, designed to efficiently manage and analyze crowd dynamics.</p>
-    </div>
-    <div class="spacer"></div>
-    <div id="services" class="section">
-        <h2>Services</h2>
-        <p>Our services include real-time crowd monitoring, data analysis, and predictive modeling for better crowd management.</p>
-    </div>
-    <div class="spacer"></div>
-    <div id="contact" class="section">
-        <h2>Contact</h2>
-        <p>For inquiries, please contact us at: <a href="mailto:info@croudmanagement.com">info@croudmanagement.com</a></p>
-    </div>
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3076/3076675.png" alt="Safety Icon">
+            <h3>Safety Alerts</h3>
+            <p>Automatic alerts in case of overcrowding.</p>
+        </div>
 
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2659/2659365.png" alt="Analytics Icon">
+            <h3>Data Analytics</h3>
+            <p>Monitor crowd behavior and movement patterns.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3064/3064141.png" alt="Response Icon">
+            <h3>Emergency Response</h3>
+            <p>Quick response to avoid accidents and stampedes.</p>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3199/3199830.png" alt="Crowd Control Icon">
+            <h3>Crowd Control</h3>
+            <p>Dynamic crowd control strategies using AI.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="info-section">
+        <h2>Contact Us</h2>
+        <p>
+            <img class="icon" src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Org Icon">
+            <strong>Organization:</strong> Data Wizards
+        </p>
+        <p>
+            <img class="icon" src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email Icon">
+            <strong>Email:</strong> support@datawizards.com
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2025 Crowd Management System | Designed for Safety & Efficiency
+    </footer>
+
+    <!-- JavaScript -->
     <script>
-        const dropZone = document.querySelector('.card');
+        function uploadFile() {
+            const fileInput = document.querySelector('.file-input');
+            const statusText = document.getElementById('upload-status');
 
-        dropZone.addEventListener('click', () => fileInput.click());
-
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.style.border = '2px dashed #007bff';
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.style.border = 'none';
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.style.border = 'none';
-            const files = e.dataTransfer.files;
-            fileInput.files = files;
-            alert('File selected: ' + files[0].name);
-        });
-
-        document.getElementById('uploadButton').addEventListener('click', function() {
-        const fileInput = document.getElementById('fileInput');
-        const uploadForm = document.getElementById('uploadForm');
-
-    if (fileInput.files.length > 0) {
-        alert('Uploading: ' + fileInput.files[0].name);
-        uploadForm.submit();
-    } else {
-        alert('Please select a file first.');
-    }
-});
-
+            if (fileInput.files.length > 0) {
+                statusText.textContent = "File uploaded successfully!";
+                statusText.style.color = "green";
+            } else {
+                statusText.textContent = "Please select a file!";
+                statusText.style.color = "red";
+            }
+        }
     </script>
+
 </body>
 </html>
