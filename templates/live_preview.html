@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Preview</title>
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #D3EFE9; /* Light pastel blue-green */
+            color: #2A3935; /* Darker text for readability */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #10443E; /* Deep green */
+            text-shadow: 0 0 10px rgba(16, 68, 62, 0.5);
+        }
+
+        /* Stream Container */
+        .stream-container {
+            background: #EDE4D6; /* Soft beige for a premium look */
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(50, 116, 92, 0.4);
+            max-width: 85%;
+            width: 800px;
+            border: 3px solid #B29361; /* Subtle gold for elegance */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .stream-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 25px rgba(50, 116, 92, 0.5);
+        }
+
+        /* Video Feed */
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #EDE4D6; /* Soft beige frame */
+            box-shadow: 0 0 20px rgba(178, 147, 97, 0.4); /* Gold tint glow */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .stream-container {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .stream-container {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Live Preview</h1>
-    <!-- This is the MJPEG stream; we just display it in an <img> -->
-    <img src="{{ url_for('video_feed') }}" style="max-width: 80%; height: auto;" />
+    <h1>Live Camera Feed</h1>
+    <div class="stream-container">
+        <img src="{{ url_for('video_feed') }}" alt="Live Stream">
+    </div>
 </body>
 </html>
