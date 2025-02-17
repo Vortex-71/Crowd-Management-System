@@ -181,8 +181,8 @@
     <!-- Upload Section -->
     <section id="upload" class="upload-section">
         <h2>Upload Your Videos</h2>
-        <input type="file" class="file-input" accept="video/*">
-        <button class="upload-button" onclick="uploadFile()">Upload</button>
+        <input type="file" id="file-input" accept="video/*">
+        <button class="upload-button" id="upload-btn" onclick="uploadFile()">Upload</button>
         <p id="upload-status"></p>
     </section>
 
@@ -239,17 +239,45 @@
 
     <!-- JavaScript -->
     <script>
-        function uploadFile() {
-            const fileInput = document.querySelector('.file-input');
-            const statusText = document.getElementById('upload-status');
+         document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("upload-btn").addEventListener("click", uploadFile);
+        });
 
-            if (fileInput.files.length > 0) {
-                statusText.textContent = "File uploaded successfully!";
-                statusText.style.color = "green";
-            } else {
+        function uploadFile() {
+            const fileInput = document.getElementById("file-input");
+            const statusText = document.getElementById("upload-status");
+
+            if (!fileInput || !fileInput.files.length) {
                 statusText.textContent = "Please select a file!";
                 statusText.style.color = "red";
+                return;
             }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append("video", file);
+
+            statusText.textContent = "Uploading...";
+            statusText.style.color = "blue";
+
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    statusText.textContent = "File uploaded successfully!";
+                    statusText.style.color = "green";
+                    window.location.href = "/live_preview"; // Redirect to live preview
+                } else {
+                    statusText.textContent = "Upload failed!";
+                    statusText.style.color = "red";
+                }
+            })
+            .catch(error => {
+                statusText.textContent = "Error: " + error;
+                statusText.style.color = "red";
+            });
         }
     </script>
 
