@@ -1,4 +1,4 @@
-train: /content/Ultron_Hackathon/dataset/images/train
-val: /content/Ultron_Hackathon/dataset/images/val
+train: C:\Code\Crowd-Management-System\dataset\images\train
+val: C:\Code\Crowd-Management-System\dataset\images\val
 nc: 1
 names: ["person"]
