@@ -1,87 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Preview</title>
-    <style>
-        /* General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <title>Live Preview with Popup</title>
+  <style>
+    /* Basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      background-color: #D3EFE9;
+      color: #2A3935;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #10443E;
+      text-shadow: 0 0 10px rgba(16, 68, 62, 0.5);
+    }
+    /* Container for the main feed */
+    .stream-container {
+      position: relative;
+      background: #EDE4D6;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(50,116,92,0.4);
+      max-width: 90%;
+      width: 1000px; /* bigger container */
+      border: 3px solid #B29361;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      margin-bottom: 20px;
+      cursor: pointer; /* Indicate it's clickable */
+    }
+    .stream-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 25px rgba(50,116,92,0.5);
+    }
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 3px solid #EDE4D6;
+      box-shadow: 0 0 20px rgba(178,147,97,0.4);
+    }
+    .toggle-btn {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-bottom: 20px;
+    }
+    .toggle-btn:hover {
+      background-color: #0056b3;
+    }
 
-        body {
-            background-color: #D3EFE9; /* Light pastel blue-green */
-            color: #2A3935; /* Darker text for readability */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #10443E; /* Deep green */
-            text-shadow: 0 0 10px rgba(16, 68, 62, 0.5);
-        }
-
-        /* Stream Container */
-        .stream-container {
-            background: #EDE4D6; /* Soft beige for a premium look */
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(50, 116, 92, 0.4);
-            max-width: 85%;
-            width: 800px;
-            border: 3px solid #B29361; /* Subtle gold for elegance */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .stream-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 25px rgba(50, 116, 92, 0.5);
-        }
-
-        /* Video Feed */
-        img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            border: 3px solid #EDE4D6; /* Soft beige frame */
-            box-shadow: 0 0 20px rgba(178, 147, 97, 0.4); /* Gold tint glow */
-        }
-
-        /* Responsive Design */
-        @media (max-width: 900px) {
-            .stream-container {
-                width: 95%;
-            }
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .stream-container {
-                padding: 10px;
-            }
-        }
-    </style>
+    /* MODAL STYLES */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 9999; /* on top of everything */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 600px;
+      max-width: 90%;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
+    .modal-content img {
+      width: 100%;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-    <h1>Live Camera Feed</h1>
-    <div class="stream-container">
-        <img src="{{ url_for('video_feed') }}" alt="Live Stream">
+  <h1>Live Camera Feed (Modal Popup)</h1>
+  
+  <div class="stream-container" id="mainFeed">
+    <img src="{{ url_for('video_feed') }}" alt="Live Stream" id="mainImage" />
+  </div>
+
+  <button class="toggle-btn" onclick="window.location.href='/toggle_heatmap'">
+    Toggle Heat Map
+  </button>
+
+  <!-- The modal for showing the zoomed subimage -->
+  <div id="zoomModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="modalClose">&times;</span>
+      <h2>Magnified Grid Cell (Enhanced)</h2>
+      <!-- Show the streaming subimage from /zoom_feed -->
+      <img src="{{ url_for('zoom_feed') }}" alt="Zoomed Cell" id="zoomedImg" />
     </div>
+  </div>
+
+  <script>
+    // Grid config
+    const gridRows = 6;
+    const gridCols = 6;
+
+    // Suppose the actual YOLO frames are 1280x720
+    const actualWidth = 1280;
+    const actualHeight = 720;
+
+    const mainFeed = document.getElementById("mainFeed");
+    const modal = document.getElementById("zoomModal");
+    const modalClose = document.getElementById("modalClose");
+
+    mainFeed.addEventListener("click", function(event) {
+      const rect = mainFeed.getBoundingClientRect();
+      const clickX = event.clientX - rect.left;
+      const clickY = event.clientY - rect.top;
+
+      // ratio from displayed size -> actual size
+      const ratioX = actualWidth / rect.width;
+      const ratioY = actualHeight / rect.height;
+
+      const realX = clickX * ratioX;
+      const realY = clickY * ratioY;
+
+      const cellW = actualWidth / gridCols;
+      const cellH = actualHeight / gridRows;
+
+      const col = Math.floor(realX / cellW);
+      const row = Math.floor(realY / cellH);
+      console.log("Clicked row=" + row + ", col=" + col);
+
+      // Call /set_zoom to tell backend which cell to use
+      fetch(`/set_zoom?row=${row}&col=${col}`)
+        .then(response => {
+          // show the modal
+          modal.style.display = "block";
+        })
+        .catch(error => {
+          console.error("Error setting zoom cell:", error);
+        });
+    });
+
+    // Close the modal when user clicks X
+    modalClose.onclick = function() {
+      modal.style.display = "none";
+      // reset the zoom cell
+      fetch(`/set_zoom?row=-1&col=-1`);
+    };
+
+    // Also close if user clicks outside the modal content
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = "none";
+        fetch(`/set_zoom?row=-1&col=-1`);
+      }
+    };
+  </script>
 </body>
 </html>
